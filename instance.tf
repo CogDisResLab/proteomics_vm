@@ -1,16 +1,17 @@
 # Create EC2 Instance
 resource "aws_instance" "windows-server" {
-  ami                    = data.aws_ami.windows-2022.id
-  instance_type          = var.instance_type
-  subnet_id              = aws_subnet.public-subnet.id
-  vpc_security_group_ids = [aws_security_group.aws-windows-sg.id]
-  source_dest_check      = false
-  key_name               = aws_key_pair.key_pair.key_name
-  #  user_data = data.template_file.windows-userdata.rendered
+  ami                         = data.aws_ami.windows-2022.id
+  instance_type               = var.instance_type
+  subnet_id                   = aws_subnet.public-subnet.id
+  vpc_security_group_ids      = [aws_security_group.aws-windows-sg.id]
+  source_dest_check           = false
+  key_name                    = aws_key_pair.windows_key.key_name
+  get_password_data           = true
   associate_public_ip_address = var.associate_public_ip_address
 
   metadata_options {
-    http_tokens = "required"
+    http_endpoint = "enabled"
+    http_tokens   = "required"
   }
 
   # root disk
@@ -32,6 +33,11 @@ resource "aws_instance" "windows-server" {
   tags = {
     Name = "windows-server-vm"
   }
+}
+
+resource "aws_key_pair" "windows_key" {
+  key_name   = "windows_key"
+  public_key = var.ssh_public_key
 }
 
 # Create Elastic IP for the EC2 instance
