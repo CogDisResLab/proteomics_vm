@@ -5,7 +5,7 @@ resource "aws_instance" "windows-server" {
   subnet_id                   = aws_subnet.public-subnet.id
   vpc_security_group_ids      = [aws_security_group.aws-windows-sg.id]
   source_dest_check           = false
-  key_name                    = aws_key_pair.windows_key.key_name
+  key_name                    = aws_key_pair.instance_key_pair.key_name
   get_password_data           = true
   associate_public_ip_address = var.associate_public_ip_address
 
@@ -33,11 +33,6 @@ resource "aws_instance" "windows-server" {
   tags = {
     Name = "windows-server-vm"
   }
-}
-
-resource "aws_key_pair" "windows_key" {
-  key_name   = "windows_key"
-  public_key = var.ssh_public_key
 }
 
 # Create Elastic IP for the EC2 instance

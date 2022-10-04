@@ -1,7 +1,7 @@
 output "dns" {
-  value = aws_instance.windows-server.public_dns
+  value = aws_eip.windows-eip.public_dns
 }
 
-output "password" {
-  value = aws_instance.windows-server.password_data
+output "ip" {
+  value = aws_eip.windows-eip.public_ip
 }
