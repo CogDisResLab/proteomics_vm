@@ -35,6 +35,11 @@ resource "aws_instance" "windows-server" {
   }
 }
 
+# resource "aws_key_pair" "windows_key" {
+#   key_name   = "windows_key"
+#   public_key = tls_private_key.instance_key.public_key_openssh
+# }
+
 # Create Elastic IP for the EC2 instance
 resource "aws_eip" "windows-eip" {
   vpc = true
